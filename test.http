@@ -1,0 +1,5 @@
+
+POST http://localhost:4004/odata/v4/catalog/Tests(ID=2)/assignQuestionsToTest 
+Content-Type: application/json 
+
+{"questionsCounts":10} 
