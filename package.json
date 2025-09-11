@@ -14,6 +14,18 @@
     "@cap-js/cds-types": "^0.7.0"
   },
   "scripts": {
-    "start": "cds-serve"
-  }
+    "start": "cds-serve",
+    "watch-testquestion": "cds watch --open testquestion/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "trivia-api": {
+      "kind": "rest",
+      "credentials": {
+        "url": "https://opentdb.com"
+      }
+    }
+  },
+  "sapux": [
+    "app/testquestion"
+  ]
 }

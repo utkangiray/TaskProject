@@ -1,0 +1,17 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core">
+   <Dialog
+      id="QuestionsAssignDialog"
+     title="Assign Questions"
+     contentWidth="500px" contentHeight="80px"
+     core:require="{handler: 'test/com/testquestion/ext/controller/utils'}" 
+    >
+ <Text id="questionsCountTitle" text="{title}" class="sapUiSmallMarginBegin" />
+  <Input id="questionsCountInput" placeholder="{i18n>EnterCount}" type="Number" width="90%" class="sapUiSmallMarginBegin" />
+     <buttons>
+      <Button id="btnClose" text="Close" type="Reject" press="handler.onCloseDialog"/>
+      <Button id="btnSubmit" text="Submit" type="Accept" press="handler.onSubmitDialog"/>
+    </buttons>
+   </Dialog>
+</core:FragmentDefinition>
