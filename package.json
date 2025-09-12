@@ -27,7 +27,8 @@
     },
     "requires": {
       "[production]": {
-        "db": "hana"
+        "db": "hana",
+        "html5-repo": true
       }
     }
   }
