@@ -1,0 +1,109 @@
+_schema-version: 3.3.0
+ID: TaskProject
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+  deploy_mode: html5-repo
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: TaskProject-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health
+    build-parameters:
+      builder: npm
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: TaskProject-auth
+      - name: TaskProject-db
+
+  - name: TaskProject
+    type: approuter.nodejs
+    path: app\router
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: TaskProject-auth
+      - name: TaskProject-html5-runtime
+
+  - name: TaskProject-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: TaskProject-db
+
+  - name: TaskProject-app-deployer
+    type: com.sap.application.content
+    path: gen
+    requires:
+      - name: TaskProject-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: app/
+      requires:
+        - name: TaskProjecttestquestion
+          artifacts:
+            - testquestion.zip
+          target-path: app/
+
+  - name: TaskProjecttestquestion
+    type: html5
+    path: app/testquestion
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+
+resources:
+  - name: TaskProject-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: TaskProject-${org}-${space}
+        tenant-mode: dedicated
+  - name: TaskProject-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+
+  - name: TaskProject-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: TaskProject-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
