@@ -22,6 +22,12 @@ annotate service.Tests with @(
             Label : 'General Information',
             Target : '@UI.FieldGroup#GeneratedGroup',
         },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target : 'questions/@UI.LineItem',
+            Label : 'Questions Of Test',
+            ID : 'questionSection',
+        },
     ],
     UI.LineItem : [
         {
@@ -33,6 +39,26 @@ annotate service.Tests with @(
             $Type : 'UI.DataField',
             Label : 'description',
             Value : description,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'ID',
+            Value : ID,
+        },
+    ],
+);
+
+annotate service.Questions with @(
+    UI.LineItem : [
+        {
+            $Type : 'UI.DataField',
+            Label : 'Question Text',
+            Value : text,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Answer',
+            Value : answer.text,
         },
         {
             $Type : 'UI.DataField',

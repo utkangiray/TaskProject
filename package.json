@@ -6,10 +6,12 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^8",
-    "express": "^4",
     "@cap-js/hana": "^1",
-    "@sap/xssec": "^4"
+    "@sap-cloud-sdk/http-client": "^4.1.2",
+    "@sap-cloud-sdk/resilience": "^4.1.2",
+    "@sap/cds": "^8",
+    "@sap/xssec": "^4",
+    "express": "^4"
   },
   "devDependencies": {
     "@cap-js/cds-types": "^0.7.0",
@@ -33,7 +35,13 @@
         "html5-repo": true,
         "auth": "xsuaa"
       },
-      "html5-repo": true
+      "html5-repo": true,
+      "trivia-api": {
+        "kind": "rest",
+        "credentials": {
+          "url": "https://opentdb.com"
+        }
+      }
     }
   }
 }

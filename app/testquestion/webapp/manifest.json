@@ -127,7 +127,20 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Tests"
+              "contextPath": "/Tests",
+              "content": {
+                "header": {
+                  "actions": {
+                    "utils": {
+                      "press": "test.com.testquestion.ext.controller.utils.addQuestions",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "Add Questions"
+                    }
+                  }
+                }
+              }
             }
           }
         }
